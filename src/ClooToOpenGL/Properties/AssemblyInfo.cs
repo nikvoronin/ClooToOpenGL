@@ -1,0 +1,10 @@
+﻿using System.Reflection;
+[assembly: AssemblyTitle("ClooToOpenGL")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("Nikolai Voronin")]
+[assembly: AssemblyProduct("ClooToOpenGL")]
+[assembly: AssemblyCopyright("Copyright © Nikolai Voronin 2016")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+[assembly: AssemblyVersion("1.0.*")]
