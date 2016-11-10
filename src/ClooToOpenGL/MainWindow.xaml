@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ClooToOpenGL"
         mc:Ignorable="d"
-        Title="Cloo to OpenGL" Height="320" Width="480"
+        Title="Cloo to OpenGL" Width="640" Height="480"
         xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF">
     <Grid>
         <sharpGL:OpenGLControl 

@@ -30,7 +30,7 @@ namespace ClooToOpenGL
         {
             delta = timer.ElapsedTicks - lastTicks;
             lastTicks = timer.ElapsedTicks;
-            Title = $"Cloo to OpenGL — {delta / 10000}ms, {10000000 / delta}fps";
+            Title = $"Cloo to OpenGL — {cPlatform.Name} | {delta / 10000}ms, {10000000 / delta}fps";
 
             render.ConfigureKernel();
             render.ExecuteKernel();
@@ -85,7 +85,7 @@ namespace ClooToOpenGL
             string kernelSource = LoadEmbeddedFile(KERNEL_FILENAME);
 
             foreach (var p in ComputePlatform.Platforms)
-                if (p.Vendor.ToUpperInvariant().Contains("INTEL"))
+                if (p.Vendor.ToUpperInvariant().Contains("NVIDIA"))
                 {
                     cPlatform = p;
                     break;
