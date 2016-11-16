@@ -5,7 +5,8 @@ Live rendering of Mandelbrot fractal with help of .NET, Cloo and SharpGL. Actual
 ![cloo2opengl](https://cloud.githubusercontent.com/assets/11328666/20175314/2d23d5e2-a753-11e6-9e08-58d7c398e394.png)
 
 - Left Mouse click to center image.<br/>
-- Scrool wheeeel to zoom/unzoom.
+- Scrool wheeeel to zoom/unzoom.<br/>
+- Cursor up/down - Increments/decrements the number of iterations (Shift+ would get x10 speed up)
 
 At start it's looking for NVIDIA graphics card but you can start your own journey from changing this. Just replace the string "NVIDIA" to the "INTEL" or "AMD":
 
