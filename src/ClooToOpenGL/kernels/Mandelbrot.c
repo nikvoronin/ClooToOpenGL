@@ -36,11 +36,11 @@ __kernel void Mandelbrot(
 	const float reMax,
 	const float imMin,
 	const float imMax,
+	const uint maxIter,
 	__global uint4* clrng,
 	__global uchar4* clout)
 {
-	const uint maxIter = 1000;
-	const float escapeOrbit = 8.0f;
+	const float escapeOrbit = 4.0f;
 
 	float2 rand = clrand2(get_global_id(0), clrng);
 	float2 c = (float2)(mix(reMin, reMax, rand.x), mix(imMin, imMax, rand.y));
@@ -75,24 +75,26 @@ __kernel void Mandelbrot(
 	if ((x >= 0) && (y >= 0) && (x < width) && (y < height))
 	{		
 		int i = x + y * width;
-		if (iter >= maxIter || iter == 0)
-			clout[i] = (0, 0, 0, 0);
-		else
+		float clr = 0.0f;
+		if (iter < maxIter)// && iter > 0)
 		{
 			// b&w
-			//float clr = 255.0f;
+			//clr = 255.0f;
 
 			// filled
-			//float clr = length(z) / escapeOrbit * 255.0f;
+			//clr = length(z) / escapeOrbit * 255.0f;
 
 			// smoothed
 			float k = 1.0f / half_log(escapeOrbit);
-			float clr = 5.0f + iter - half_log(0.5f) * k - half_log(half_log(sqrt(z.x * z.x + z.y * z.y))) * k;
-
-			clout[i].x = (uchar)clamp(clr, 0.0f, 255.0f);
-			clout[i].y = (uchar)clamp(clr, 0.0f, 255.0f);
-			clout[i].z = (uchar)clamp(clr, 0.0f, 255.0f);
-			clout[i].w = 255;
+			clr = 5.0f + iter - half_log(0.5f) * k - half_log(half_log(sqrt(z.x * z.x + z.y * z.y))) * k;		
 		}
+
+		clr = clamp(clr, 0.0f, 255.0f);
+		clr = (clr + clout[i].x) / 2.0f;
+
+		clout[i].x = (uchar)clr;
+		clout[i].y = (uchar)clr;
+		clout[i].z = (uchar)clr;
+		clout[i].w = 255;
 	} // if iter x y width height
 } // __kernel

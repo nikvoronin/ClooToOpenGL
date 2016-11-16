@@ -6,12 +6,16 @@ using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Input;
 
 namespace ClooToOpenGL
 {
     public partial class MainWindow : Window
     {
-        const string KERNEL_FILENAME = "ClooToOpenGL.kernels.Mandelbrot.c";
+        // External OpenCL kernels
+        const string KERNEL_FILENAME = "kernels/Mandelbrot.c";
+        // Embedded OpenCL kernels
+        //const string KERNEL_FILENAME = "ClooToOpenGL.kernels.Mandelbrot.c";
         Render render;
         ComputePlatform cPlatform;
 
@@ -20,17 +24,17 @@ namespace ClooToOpenGL
             InitializeComponent();
         }
 
-        uint width = 1280;
-        uint height = 1024;
+        uint width = 1920;
+        uint height = 1080;
 
         Stopwatch timer;
         long delta = 0;
         long lastTicks = 0;
-        private void SharpGL_Draw(object sender, OpenGLEventArgs args)
+        private void SGL_Draw(object sender, OpenGLEventArgs args)
         {
             delta = timer.ElapsedTicks - lastTicks;
             lastTicks = timer.ElapsedTicks;
-            Title = $"Cloo to OpenGL — {cPlatform.Name} | {delta / 10000}ms, {10000000 / delta}fps";
+            Title = $"Cloo to OpenGL — {cPlatform.Name} {width}x{height} i{render?.maxIter} | {delta / 10000}ms, {10000000 / delta}fps";
 
             render.ConfigureKernel();
             render.ExecuteKernel();
@@ -69,12 +73,13 @@ namespace ClooToOpenGL
             gl.Flush();
         }
 
-        private void SharpGL_Initialized(object sender, OpenGLEventArgs args)
+        private void SGL_Initialized(object sender, OpenGLEventArgs args)
         {
             Cloo_Initialize(args);
 
             OpenGL gl = args.OpenGL;
             gl.Enable(OpenGL.GL_TEXTURE_2D);
+            gl.Disable(OpenGL.GL_DEPTH_TEST);
 
             timer = new Stopwatch();
             timer.Start();
@@ -82,22 +87,44 @@ namespace ClooToOpenGL
 
         private void Cloo_Initialize(OpenGLEventArgs args)
         {
-            string kernelSource = LoadEmbeddedFile(KERNEL_FILENAME);
+            string kernelSource = File.ReadAllText(KERNEL_FILENAME); //LoadEmbeddedFile(KERNEL_FILENAME);
 
             foreach (var p in ComputePlatform.Platforms)
-                if (p.Vendor.ToUpperInvariant().Contains("NVIDIA"))
+                if (p.Vendor.ToUpperInvariant().Contains("NVIDIA")) // "INTEL")) // "AMD"))
                 {
                     cPlatform = p;
                     break;
                 }
 
-            render = new Render(cPlatform, kernelSource, width, height, width * height / 10);
+            if (render != null)
+                render =
+                    new Render(
+                        cPlatform,
+                        kernelSource,
+                        width, height,
+                        width * height / 10,
+                        render.reMin, render.reMax, render.imMin, render.imMax,
+                        render.maxIter
+                        );
+            else
+                render =
+                    new Render(
+                        cPlatform,
+                        kernelSource,
+                        width, height,
+                        width * height / 10
+                        );
 
             render.BuildKernels();
             render.AllocateBuffers();
             render.ConfigureKernel();
         }
 
+        /// <summary>
+        /// If you are embedd OpenCL kernels into the assembly: Build Action -> Embedded Resource
+        /// </summary>
+        /// <param name="filename"></param>
+        /// <returns></returns>
         private string LoadEmbeddedFile(string filename)
         {
             Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(filename);
@@ -120,7 +147,7 @@ namespace ClooToOpenGL
 
         }
 
-        private void OpenGLControl_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SGL_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Point pos = e.GetPosition(sender as UIElement);
             Size elsz = (sender as UIElement).DesiredSize;
@@ -133,6 +160,36 @@ namespace ClooToOpenGL
             render.reMax += lx2;
             render.imMin += ly2;
             render.imMax += ly2;
+        }
+
+        private void SGL_Resized(object sender, OpenGLEventArgs args)
+        {
+            Size sz = (sender as UIElement).RenderSize;
+            width = (uint)sz.Width;
+            height = (uint)sz.Height;
+
+            Cloo_Initialize(args);
+        }
+
+        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            switch(e.Key)
+            {
+                case Key.Up:      
+                    if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                        render.maxIter += 10;
+                    else
+                        render.maxIter++;
+                    break;
+                case Key.Down:
+                    if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                        if (render.maxIter > 10)
+                            render.maxIter -= 10;
+                    else
+                        if (render.maxIter > 1)
+                            render.maxIter--;
+                    break;
+            }
         }
     }
 }

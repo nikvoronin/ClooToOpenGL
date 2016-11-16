@@ -6,10 +6,11 @@
         xmlns:local="clr-namespace:ClooToOpenGL"
         mc:Ignorable="d"
         Title="Cloo to OpenGL" Width="640" Height="480"
-        xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF">
+        xmlns:sharpGL="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF"
+        KeyDown="Window_KeyDown" >
     <Grid>
         <sharpGL:OpenGLControl 
-            OpenGLDraw="SharpGL_Draw" OpenGLInitialized="SharpGL_Initialized" DrawFPS="false"
-            RenderContextType="FBO" MouseWheel="SGL_MouseWheel" MouseUp="OpenGLControl_MouseUp" />
+            OpenGLDraw="SGL_Draw" Resized="SGL_Resized" OpenGLInitialized="SGL_Initialized" DrawFPS="false"
+            RenderContextType="FBO" MouseWheel="SGL_MouseWheel" MouseUp="SGL_MouseUp" />
     </Grid>
 </Window>

@@ -25,14 +25,29 @@ namespace ClooToOpenGL
         public float reMax = 1.0f;
         public float imMin = -1.0f;
         public float imMax = 1.0f;
+        public uint maxIter = 200;
 
         public string KernelName = "Mandelbrot";
 
-        public Render(ComputePlatform cPlatform, string kernelSource, uint width, uint height, uint workers)
+        public Render(
+            ComputePlatform cPlatform,
+            string kernelSource,
+            uint width, uint height,
+            uint workers,
+            float reMin = -2.0f,
+            float reMax = 1.0f,
+            float imMin = -1.0f,
+            float imMax = 1.0f,
+            uint maxIter = 200)
         {
             this.width = width;
             this.height = height;
             this.workers = workers;
+            this.reMin = reMin;
+            this.reMax = reMax;
+            this.imMin = imMin;
+            this.imMax = imMax;
+            this.maxIter = maxIter;
 
             clPlatform = cPlatform;
             clProperties = new ComputeContextPropertyList(clPlatform);
@@ -116,8 +131,9 @@ namespace ClooToOpenGL
             clKernel.SetValueArgument(3, reMax);
             clKernel.SetValueArgument(4, imMin);
             clKernel.SetValueArgument(5, imMax);
-            clKernel.SetMemoryArgument(6, cbuf_Rng);
-            clKernel.SetMemoryArgument(7, cbuf_Result);
+            clKernel.SetValueArgument(6, maxIter);
+            clKernel.SetMemoryArgument(7, cbuf_Rng);
+            clKernel.SetMemoryArgument(8, cbuf_Result);
         }
 
         public void ExecuteKernel()
