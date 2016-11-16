@@ -2,7 +2,7 @@
 
 Live rendering of Mandelbrot fractal with help of .NET, Cloo and SharpGL. Actually, collaboration of OpenCL and OpenGL.
 
-![cloo2opengl](https://cloud.githubusercontent.com/assets/11328666/20175314/2d23d5e2-a753-11e6-9e08-58d7c398e394.png)
+![cloo2opengl_v11](https://cloud.githubusercontent.com/assets/11328666/20339873/ceb54ac6-abef-11e6-9663-ff9e42c66538.png)
 
 - Left Mouse click to center image.<br/>
 - Scrool wheeeel to zoom/unzoom.<br/>
@@ -20,5 +20,7 @@ private void Cloo_Initialize(OpenGLEventArgs args)
 		if (p.Vendor.ToUpperInvariant().Contains("NVIDIA"))
 [...]
 ```
+
+![cloo2opengl](https://cloud.githubusercontent.com/assets/11328666/20175314/2d23d5e2-a753-11e6-9e08-58d7c398e394.png)
 
 ![cloo2opengl2](https://cloud.githubusercontent.com/assets/11328666/20175474/f178bf84-a753-11e6-9476-3cdb7b282c96.png)
