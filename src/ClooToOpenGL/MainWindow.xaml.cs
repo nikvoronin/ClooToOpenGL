@@ -17,7 +17,7 @@ namespace ClooToOpenGL
         // Embedded OpenCL kernels
         //const string KERNEL_FILENAME = "ClooToOpenGL.kernels.Mandelbrot.c";
         Render render;
-        ComputePlatform cPlatform;
+        ComputeDevice cDevice;
 
         public MainWindow()
         {
@@ -34,7 +34,7 @@ namespace ClooToOpenGL
         {
             delta = timer.ElapsedTicks - lastTicks;
             lastTicks = timer.ElapsedTicks;
-            Title = $"Cloo to OpenGL — {cPlatform.Name} {width}x{height} i{render?.maxIter} | {delta / 10000}ms, {10000000 / delta}fps";
+            Title = $"Cloo to OpenGL — {cDevice.Platform.Name} {width}x{height} i{render?.maxIter} | {delta / 10000}ms, {10000000 / delta}fps";
 
             render.ConfigureKernel();
             render.ExecuteKernel();
@@ -90,16 +90,17 @@ namespace ClooToOpenGL
             string kernelSource = File.ReadAllText(KERNEL_FILENAME); //LoadEmbeddedFile(KERNEL_FILENAME);
 
             foreach (var p in ComputePlatform.Platforms)
-                if (p.Vendor.ToUpperInvariant().Contains("NVIDIA")) // "INTEL")) // "AMD"))
-                {
-                    cPlatform = p;
-                    break;
-                }
+                foreach(var d in p.Devices)
+                    if (d.Vendor.ToUpperInvariant().Contains("NVIDIA")) // "INTEL")) // "AMD"))
+                    {
+                        cDevice = d;
+                        break;
+                    }
 
             if (render != null)
                 render =
                     new Render(
-                        cPlatform,
+                        cDevice,
                         kernelSource,
                         width, height,
                         width * height / 10,
@@ -109,7 +110,7 @@ namespace ClooToOpenGL
             else
                 render =
                     new Render(
-                        cPlatform,
+                        cDevice,
                         kernelSource,
                         width, height,
                         width * height / 10

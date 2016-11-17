@@ -15,11 +15,18 @@ At start it's looking for NVIDIA graphics card but you can start your own journe
 ```c#
 private void Cloo_Initialize(OpenGLEventArgs args)
 {
-[...]
+	[...]
 	foreach (var p in ComputePlatform.Platforms)
-		if (p.Vendor.ToUpperInvariant().Contains("NVIDIA"))
-[...]
+		foreach(var d in p.Devices)
+			if (d.Vendor.ToUpperInvariant().Contains("NVIDIA")) // "INTEL")) // "AMD"))
+			[...]
 ```
+
+## Kernels Here
+
+Since version 1.1 you can edit kernel which you can find under the `/kernels` folder. The kernel file could be edited in isolation of main application.
+
+## Deeper and Darker
 
 ![cloo2opengl](https://cloud.githubusercontent.com/assets/11328666/20175314/2d23d5e2-a753-11e6-9e08-58d7c398e394.png)
 

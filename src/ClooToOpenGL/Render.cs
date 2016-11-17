@@ -30,7 +30,7 @@ namespace ClooToOpenGL
         public string KernelName = "Mandelbrot";
 
         public Render(
-            ComputePlatform cPlatform,
+            ComputeDevice cDevice,
             string kernelSource,
             uint width, uint height,
             uint workers,
@@ -49,10 +49,10 @@ namespace ClooToOpenGL
             this.imMax = imMax;
             this.maxIter = maxIter;
 
-            clPlatform = cPlatform;
+            clPlatform = cDevice.Platform;
             clProperties = new ComputeContextPropertyList(clPlatform);
             clContext = new ComputeContext(clPlatform.Devices, clProperties, null, IntPtr.Zero);
-            clCommands = new ComputeCommandQueue(clContext, clContext.Devices[0], ComputeCommandQueueFlags.None);
+            clCommands = new ComputeCommandQueue(clContext, cDevice, ComputeCommandQueueFlags.None);
             clProgram = new ComputeProgram(clContext, new string[] { kernelSource });
 
             h_resultBuf = new byte[width * height * 4];
