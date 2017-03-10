@@ -98,6 +98,7 @@ namespace ClooToOpenGL
                     }
 
             if (render != null)
+            {
                 render =
                     new Render(
                         cDevice,
@@ -107,7 +108,9 @@ namespace ClooToOpenGL
                         render.reMin, render.reMax, render.imMin, render.imMax,
                         render.maxIter
                         );
+            }
             else
+            {
                 render =
                     new Render(
                         cDevice,
@@ -115,6 +118,7 @@ namespace ClooToOpenGL
                         width, height,
                         width * height / 10
                         );
+            }
 
             render.BuildKernels();
             render.AllocateBuffers();
@@ -134,12 +138,12 @@ namespace ClooToOpenGL
             return reader.ReadToEnd();
         }
 
-        private void SGL_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        private void SGL_MouseWheel(object sender, MouseWheelEventArgs e)
         {
             // positive Delta - zoom in
             // negative Delta - zoom out
-            float ax = (float)Math.Abs(render.reMax - render.reMin) * (e.Delta > 0 ? -0.1f : 0.1f);
-            float ay = (float)Math.Abs(render.imMax - render.imMin) * (e.Delta > 0 ? -0.1f : 0.1f);
+            float ax = Math.Abs(render.reMax - render.reMin) * (e.Delta > 0 ? -0.1f : 0.1f);
+            float ay = Math.Abs(render.imMax - render.imMin) * (e.Delta > 0 ? -0.1f : 0.1f);
 
             render.reMin -= ax;
             render.reMax += ax;
@@ -148,15 +152,15 @@ namespace ClooToOpenGL
 
         }
 
-        private void SGL_MouseUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        private void SGL_MouseUp(object sender, MouseButtonEventArgs e)
         {
             Point pos = e.GetPosition(sender as UIElement);
             Size elsz = (sender as UIElement).DesiredSize;
             float dx = (float)(pos.X / elsz.Width - 0.5f) * 2.0f;
             float dy = (float)(pos.Y / elsz.Height - 0.5f) * 2.0f;
             
-            float lx2 = (float)Math.Abs(render.reMax - render.reMin) / 2.0f * dx;
-            float ly2 = (float)Math.Abs(render.imMax - render.imMin) / 2.0f * dy;
+            float lx2 = Math.Abs(render.reMax - render.reMin) / 2.0f * dx;
+            float ly2 = Math.Abs(render.imMax - render.imMin) / 2.0f * dy;
             render.reMin += lx2;
             render.reMax += lx2;
             render.imMin += ly2;
@@ -172,7 +176,7 @@ namespace ClooToOpenGL
             Cloo_Initialize(args);
         }
 
-        private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
             switch(e.Key)
             {
@@ -184,13 +188,17 @@ namespace ClooToOpenGL
                     break;
                 case Key.Down:
                     if (Keyboard.IsKeyDown(Key.LeftShift) || Keyboard.IsKeyDown(Key.RightShift))
+                    {
                         if (render.maxIter > 10)
                             render.maxIter -= 10;
+                    }
                     else
+                    {
                         if (render.maxIter > 1)
                             render.maxIter--;
+                    }
                     break;
-            }
+            } // switch
         }
-    }
+    } // class
 }
