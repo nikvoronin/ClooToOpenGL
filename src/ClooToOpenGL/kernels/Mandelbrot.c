@@ -76,7 +76,8 @@ __kernel void Mandelbrot(
 	{		
 		int i = x + y * width;
 		float clr = 0.0f;
-		if (iter < maxIter)// && iter > 0)
+
+		if (iter < maxIter)
 		{
 			// b&w
 			//clr = 255.0f;
@@ -85,12 +86,11 @@ __kernel void Mandelbrot(
 			//clr = length(z) / escapeOrbit * 255.0f;
 
 			// smoothed
-			float k = 1.0f / half_log(escapeOrbit);
-			clr = 5.0f + iter - half_log(0.5f) * k - half_log(half_log(sqrt(z.x * z.x + z.y * z.y))) * k;		
+			clr = escapeOrbit + iter - half_log(half_log(dot(z, z)));
 		}
 
 		clr = clamp(clr, 0.0f, 255.0f);
-		clr = (clr + clout[i].x) / 2.0f;
+		clr = (clr + clout[i].x) * 0.5f;
 
 		clout[i].x = (uchar)clr;
 		clout[i].y = (uchar)clr;
