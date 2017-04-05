@@ -86,7 +86,19 @@ __kernel void Mandelbrot(
 			//clr = length(z) / escapeOrbit * 255.0f;
 
 			// smoothed
-			clr = escapeOrbit + iter - half_log(half_log(dot(z, z)));
+			//float k = 1.0f / half_log(escapeOrbit);
+			//clr = 5.0f + iter - half_log(0.5f) * k - half_log(half_log(sqrt(z.x * z.x + z.y * z.y))) * k;
+			
+			/*	// just precalc for the fixed escape orbit
+				escapeOrbit = 4.0f;
+				half_log(escapeOrbit) ≈ 0.60205999;
+				k = 1.0f / half_log(escapeOrbit) ≈ 1.66096405;
+				half_log(0.5f) ≈ -0.30103;
+				half_log(0.5f) * k ≈ -0.5f;
+				
+				clr = 5.5f + iter + half_log(half_log(dot(z, z))) * 1.66096405f;
+			*/
+			clr = 5.0f + iter - half_log(half_log(dot(z, z))) * half_log(1.0f / (reMax - reMin));
 		}
 
 		clr = clamp(clr, 0.0f, 255.0f);
