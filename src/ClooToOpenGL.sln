@@ -1,22 +1,41 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClooToOpenGL", "ClooToOpenGL\ClooToOpenGL.csproj", "{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClooToOpenTK", "ClooToOpenTK\ClooToOpenTK.csproj", "{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
 		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Debug|x86.Build.0 = Debug|Any CPU
 		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Release|x86.ActiveCfg = Release|Any CPU
+		{6CB8FB90-2B29-4D3D-BBD1-638FD9E74B79}.Release|x86.Build.0 = Release|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Debug|x86.Build.0 = Debug|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Release|x86.ActiveCfg = Release|Any CPU
+		{68283EE8-6F5E-4D85-A2F7-7E86529BC6B9}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {420A1BB7-9D79-4B90-8E9D-3E8A994C1731}
 	EndGlobalSection
 EndGlobal

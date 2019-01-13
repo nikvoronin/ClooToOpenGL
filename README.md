@@ -1,6 +1,6 @@
 # .oO@ ClooToOpenGL @Oo.
 
-Live rendering of Mandelbrot fractal with help of .NET, Cloo and SharpGL. Actually, collaboration of OpenCL and OpenGL.
+Live rendering of Mandelbrot fractal with help of .NET, Cloo and OpenTK/SharpGL. Actually, collaboration of OpenCL and OpenGL.
 
 ![cloo2opengl_v11](https://cloud.githubusercontent.com/assets/11328666/20339873/ceb54ac6-abef-11e6-9663-ff9e42c66538.png)
 
